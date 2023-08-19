@@ -2,7 +2,7 @@
   "name": "ecommerce-app-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "App.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon -r dotenv/config ./src/App.ts"
@@ -13,6 +13,7 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
+    "@types/luxon": "^3.3.1",
     "@types/node": "^20.4.9",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "eslint": "^8.46.0",
@@ -28,6 +29,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "luxon": "^3.4.0",
     "mongodb": "^5.7.0",
     "mongoose": "^7.4.3",
     "winston": "^3.10.0"
