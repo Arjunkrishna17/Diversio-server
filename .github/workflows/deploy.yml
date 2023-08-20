@@ -6,9 +6,9 @@ on:
 env: 
    AWS_REGION: us-east-1
    REPOSITORY: diversio-server
-   ECS_SERVICE: insights-staging-service
-   ECS_CLUSTER: praximax-staging-ec2
-   ECS_TASK_DEFINITION: insights-staging-td
+   ECS_SERVICE: diversio //TODO
+   ECS_CLUSTER: diversio-clustor
+   ECS_TASK_DEFINITION: diversio-task
 jobs:
    build:
       name: Build image
