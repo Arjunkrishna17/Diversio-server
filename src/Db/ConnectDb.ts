@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Logger } from "../Utils/Logger";
 
-const connectDb = async () => {
+const ConnectDb = async () => {
   try {
     await mongoose.connect(process.env.MONGO_DB_URL as string);
     Logger.info("Db connected");
@@ -18,4 +18,4 @@ const connectDb = async () => {
   });
 };
 
-export default connectDb;
+export default ConnectDb;
