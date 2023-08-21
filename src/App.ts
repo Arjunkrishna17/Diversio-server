@@ -16,7 +16,7 @@ const productionURL = "";
 app.use(cors({ origin: [devURL, productionURL] }));
 
 app.use("/test",(req,res) => {
-  res.status(200).json(process.env.MONGO_DB_URL)
+  res.status(200).json("Request Received)
 })
 
 app.use("/health", (req, res) => {
