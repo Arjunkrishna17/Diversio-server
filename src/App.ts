@@ -15,9 +15,9 @@ const productionURL = "";
 
 app.use(cors({ origin: [devURL, productionURL] }));
 
-app.use("/test",(req,res) => {
-  res.status(200).json("Request Received)
-})
+app.use("/test", (req, res) => {
+  res.status(200).json("Request Received");
+});
 
 app.use("/health", (req, res) => {
   res.status(200).end();
