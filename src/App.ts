@@ -13,10 +13,6 @@ const devURL = "http://localhost:3000";
 
 app.use(cors({ origin: [devURL] }));
 
-app.use("/test", (req, res) => {
-  res.status(200).json("Request Received");
-});
-
 app.use("/health", (req, res) => {
   res.status(200).end();
 });
