@@ -59,6 +59,10 @@ jobs:
             task-definition: task-definition.json
             container-name: diversio-container
             image: ${{ steps.build-image.outputs.image }}
+
+        - name: Stop Old Task
+          run: |
+           aws ecs update-service --cluster  ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --desired-count 0
             
         - name: Deploy Amazon ECS task definition
           uses: aws-actions/amazon-ecs-deploy-task-definition@v1
