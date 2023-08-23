@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon -r dotenv/config ./src/App.ts",
-    "build": "rimraf ./build && tsc"
+    "build": "rimraf ./build && tsc",
+    "renderbuild": "npm install && tsc"
   },
   "author": "Krishna Arjun",
   "license": "ISC",
