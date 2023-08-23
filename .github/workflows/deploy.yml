@@ -72,6 +72,7 @@ jobs:
             cluster: ${{ env.ECS_CLUSTER }}
             force-new-deployment: true
             wait-for-service-stability: false
+            desired-count: 1
        
        
        
