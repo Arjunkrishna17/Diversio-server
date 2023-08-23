@@ -11,9 +11,7 @@ ConnectDb();
 
 const devURL = "http://localhost:3000";
 
-const productionURL = "";
-
-app.use(cors({ origin: [devURL, productionURL] }));
+app.use(cors({ origin: [devURL] }));
 
 app.use("/test", (req, res) => {
   res.status(200).json("Request Received");
