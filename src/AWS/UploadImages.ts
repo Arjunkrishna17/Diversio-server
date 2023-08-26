@@ -1,10 +1,12 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { Logger } from "../Utils/Logger";
+import { randomUUID } from "crypto";
 
 const UploadImages = async (
   images: Express.Multer.File[],
   category: string,
-  title: string
+  title: string,
+  subcategory: string
 ) => {
   try {
     const s3 = new S3Client({ region: process.env.AWS_REGION });
@@ -16,7 +18,7 @@ const UploadImages = async (
     for (const image of images) {
       const params = {
         Bucket: "diversio-product-images",
-        Key: `product/${category + "/" + title + "/" + image.originalname}`,
+        Key: `product/${category + "/" + subcategory + "/" + randomUUID()}`,
         Body: image.buffer,
       };
 
