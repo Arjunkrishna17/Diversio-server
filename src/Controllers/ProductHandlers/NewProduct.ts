@@ -8,14 +8,21 @@ const NewProduct: RequestHandler = async (req, res, next) => {
     const images = req.files;
     const category = req.body.category;
     const title = req.body.title;
+    const subcategory = req.body.subcategory;
+    const specificationsString = req.body.specifications;
 
     const imageUrls = await UploadImages(
       images as Express.Multer.File[],
       category,
-      title
+      title,
+      subcategory
     );
 
-    const product = { ...req.body, images: imageUrls };
+    const specifications = await JSON.parse(specificationsString);
+
+    const specificationAdded = { ...req.body, specifications: specifications };
+
+    const product = { ...specificationAdded, images: imageUrls };
 
     const result = await Product.create(product);
 

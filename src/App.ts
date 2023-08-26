@@ -11,11 +11,9 @@ ConnectDb();
 
 const devURL = "http://localhost:3000";
 
-const productionURL = "";
+app.use(cors({ origin: [devURL] }));
 
-app.use(cors({ origin: [devURL, productionURL] }));
-
-app.use("/health", (req, res) => {
+app.use("/health", (req, res, next) => {
   res.status(200).end();
 });
 
