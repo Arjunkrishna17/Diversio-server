@@ -10,8 +10,9 @@ const app = express();
 ConnectDb();
 
 const devURL = "http://localhost:3000";
+const production = "https://diversio.netlify.app";
 
-app.use(cors({ origin: [devURL] }));
+app.use(cors({ origin: [devURL, production] }));
 
 app.use("/health", (req, res, next) => {
   res.status(200).end();
