@@ -4,15 +4,13 @@ import cors from "cors";
 import { Logger } from "./Utils/Logger";
 import ConnectDb from "./Db/ConnectDb";
 import ProductRoutes from "./Routers/ProductRoutes";
+import { DEV_URL, PROD_URL } from "./Config/CorsUrl";
 
 const app = express();
 
 ConnectDb();
 
-const devURL = "http://localhost:3000";
-const production = "https://diversio.netlify.app";
-
-app.use(cors({ origin: [devURL, production] }));
+app.use(cors({ origin: [DEV_URL, PROD_URL] }));
 
 app.use("/health", (req, res, next) => {
   res.status(200).end();
