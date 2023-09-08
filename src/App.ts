@@ -19,7 +19,10 @@ app.use("/health", (req, res, next) => {
 
 app.use("/products", ProductRoutes);
 
-const params = { key: process.env.PRIVATE_KEY, cert: process.env.PUBLIC_KEY };
+const params = {
+  key: process.env.PRIVATE_KEY?.replace(/\\n/g, "\n"),
+  cert: process.env.PUBLIC_KEY?.replace(/\\n/g, "\n"),
+};
 
 let server = https.createServer(params, app);
 
