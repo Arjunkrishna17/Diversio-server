@@ -4,9 +4,17 @@ import { Logger } from "../../Utils/Logger";
 
 const Products: RequestHandler = async (req, res, next) => {
   try {
-    const allProducts = await Product.find();
+    const productId = req.query["product-id"];
 
-    res.status(200).json(allProducts);
+    let products;
+
+    if (productId) {
+      products = await Product.findById(productId);
+    } else {
+      products = await Product.find();
+    }
+
+    res.status(200).json(products);
   } catch (error) {
     Logger.error("Failed to fetch products: " + error);
     res.status(404).json("Failed to get products, please try again later.");
