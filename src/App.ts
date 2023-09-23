@@ -29,3 +29,9 @@ let server = https.createServer(params, app);
 server.listen(443, () => {
   Logger.info("Listening on port 443");
 });
+
+if (process.env.ENV === "development") {
+  app.listen(8080, () => {
+    Logger.info("Listening on port 8080");
+  });
+}
