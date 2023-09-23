@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import https from "https";
 
 import { Logger } from "./Utils/Logger";
 import ConnectDb from "./Db/ConnectDb";
@@ -18,6 +19,19 @@ app.use("/health", (req, res, next) => {
 
 app.use("/products", ProductRoutes);
 
-app.listen(8080, () => {
-  Logger.info("Listening on port 8080");
+const params = {
+  key: process.env.PRIVATE_KEY?.replace(/\\n/g, "\n"),
+  cert: process.env.PUBLIC_KEY?.replace(/\\n/g, "\n"),
+};
+
+let server = https.createServer(params, app);
+
+server.listen(443, () => {
+  Logger.info("Listening on port 443");
 });
+
+if (process.env.ENV === "development") {
+  app.listen(8080, () => {
+    Logger.info("Listening on port 8080");
+  });
+}
