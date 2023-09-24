@@ -12,7 +12,7 @@ const Cart: RequestHandler = async (req, res, next) => {
 
       res.status(200).json(products);
     } else {
-      res.status(404).json("No items added yet");
+      res.status(200).json([]);
     }
   } catch (error) {
     Logger.error("Failed to fetch products in the cart: " + error);
