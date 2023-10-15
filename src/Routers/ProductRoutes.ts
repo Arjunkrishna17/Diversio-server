@@ -1,3 +1,4 @@
+import { TokenValidator } from "./../Middleware/TokenValidator";
 import { Router } from "express";
 import NewProduct from "../Controllers/ProductHandlers/NewProduct";
 import multer from "multer";
@@ -11,6 +12,11 @@ ProductRouter.get("/", Products);
 
 ProductRouter.get("/cart", Cart);
 
-ProductRouter.post("/new-product", Upload.array("images"), NewProduct);
+ProductRouter.post(
+  "/new-product",
+  TokenValidator,
+  Upload.array("images"),
+  NewProduct
+);
 
 export default ProductRouter;

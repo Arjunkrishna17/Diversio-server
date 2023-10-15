@@ -6,10 +6,13 @@ import { Logger } from "./Utils/Logger";
 import ConnectDb from "./Db/ConnectDb";
 import ProductRoutes from "./Routers/ProductRoutes";
 import { DEV_URL, PROD_URL } from "./Config/CorsUrl";
+import Login from "./Routers/Login";
 
 const app = express();
 
 ConnectDb();
+
+app.use(express.json());
 
 app.use(cors({ origin: [DEV_URL, PROD_URL] }));
 
@@ -18,6 +21,8 @@ app.use("/health", (req, res, next) => {
 });
 
 app.use("/products", ProductRoutes);
+
+app.use("/auth", Login);
 
 const params = {
   key: process.env.PRIVATE_KEY?.replace(/\\n/g, "\n"),
