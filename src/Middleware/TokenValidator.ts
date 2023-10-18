@@ -12,7 +12,7 @@ export const TokenValidator: RequestHandler = (req, res, next) => {
   }
 
   if (bearerToken && bearerToken !== null && authType === "Bearer") {
-    // jwt verfiy will do the verfication and parsing.
+    // jwt verify will do the verification and parsing.
 
     jwt.verify(
       bearerToken,
@@ -23,8 +23,8 @@ export const TokenValidator: RequestHandler = (req, res, next) => {
         if (err) {
           res.status(401).end();
         } else {
-          const orgId = tokenInfo["org-id"];
-          res.locals.orgId = orgId;
+          const userId = tokenInfo["userId"];
+          res.locals.userId = userId;
 
           next();
         }

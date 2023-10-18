@@ -15,7 +15,7 @@ const CreateAccount: RequestHandler = async (req, res, next) => {
       return;
     }
 
-    const userCreated: user = await User.create(userInfo);
+    const userCreated = await User.create(userInfo) as user;
 
     const token = TokenGen(userCreated);
 
