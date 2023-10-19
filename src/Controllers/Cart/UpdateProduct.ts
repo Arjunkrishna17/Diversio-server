@@ -1,15 +1,7 @@
 import { RequestHandler } from "express";
 import CartProducts from "../../Modals/Cart";
 import { Logger } from "../../Utils/Logger";
-
-interface product {
-  _id: string;
-  productName: string;
-  productId: string;
-  quantity: number;
-  imageUrl: string;
-  price: number;
-}
+import { product } from "./Type";
 
 const UpdateProduct: RequestHandler = async (req, res, next) => {
   try {

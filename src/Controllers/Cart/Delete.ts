@@ -4,7 +4,7 @@ import { Logger } from "../../Utils/Logger";
 
 const Delete: RequestHandler = async (req, res, next) => {
   try {
-    const productId = req.params.productId;
+    const productId = req.query["product-id"];
 
     await CartProducts.deleteOne({ _id: productId });
 

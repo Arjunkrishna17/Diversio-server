@@ -21,7 +21,7 @@ ProductRouter.post(
   NewProduct
 );
 
-ProductRouter.post("/cart/new", TokenValidator, AddToCart);
+ProductRouter.post("/cart", TokenValidator, AddToCart);
 
 ProductRouter.get("/cart", TokenValidator, Cart);
 
