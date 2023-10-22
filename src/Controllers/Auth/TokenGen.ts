@@ -6,6 +6,7 @@ const TokenGen = (payload: user) => {
   const secret = process.env.JWT_SECRET_KEY as string;
 
   const tokenPayload = {
+    userId: payload._id,
     user: payload.user,
     username: payload.username,
   };
