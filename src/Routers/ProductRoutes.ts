@@ -6,6 +6,7 @@ import Products from "../Controllers/ProductHandlers/Products";
 import Cart from "../Controllers/Cart";
 
 const ProductRouter = Router();
+
 const Upload = multer();
 
 ProductRouter.get("/", Products);
