@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
+import { Logger } from "../Utils/Logger";
 
 export const TokenValidator: RequestHandler = (req, res, next) => {
   let bearerToken;
@@ -12,19 +13,20 @@ export const TokenValidator: RequestHandler = (req, res, next) => {
   }
 
   if (bearerToken && bearerToken !== null && authType === "Bearer") {
-    // jwt verfiy will do the verfication and parsing.
+    // jwt verify will do the verification and parsing.
 
     jwt.verify(
       bearerToken,
-      process.env.JWT_SECERET as string,
+      process.env.JWT_SECRET_KEY as string,
 
       // eslint-disable-next-line
       (err, tokenInfo: any) => {
         if (err) {
-          res.status(401).end();
+          res.status(401).json("Authentication failed, error: " + err);
+          Logger.info("Token Invalid error" + err);
         } else {
-          const orgId = tokenInfo["org-id"];
-          res.locals.orgId = orgId;
+          const userId = tokenInfo["userId"];
+          res.locals.userId = userId;
 
           next();
         }
