@@ -7,6 +7,7 @@ import ConnectDb from "./Db/ConnectDb";
 import ProductRoutes from "./Routers/ProductRoutes";
 import { DEV_URL, PROD_URL } from "./Config/CorsUrl";
 import Login from "./Routers/Login";
+import Checkout from "./Routers/Checkout";
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use("/health", (req, res, next) => {
 app.use("/products", ProductRoutes);
 
 app.use("/auth", Login);
+
+app.use("/checkout", Checkout);
 
 const params = {
   key: process.env.PRIVATE_KEY?.replace(/\\n/g, "\n"),

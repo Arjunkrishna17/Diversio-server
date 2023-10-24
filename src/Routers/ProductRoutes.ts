@@ -10,6 +10,7 @@ import UpdateProduct from "../Controllers/Cart/UpdateProduct";
 import Delete from "../Controllers/Cart/Delete";
 
 const ProductRouter = Router();
+
 const Upload = multer();
 
 ProductRouter.get("/", Products);
