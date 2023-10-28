@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
+
 import OrderModal from "../../../Modals/Order";
-import Stripe from "stripe";
-import PiStatus from "../../../Stripe/PiStatus";
 import { ERROR_MSG } from "../../../Config/Constants";
 import { Logger } from "../../../Utils/Logger";
 
@@ -12,10 +11,8 @@ const PaymentStatus: RequestHandler = async (req, res, next) => {
     if (orderId) {
       const response = await OrderModal.findById(orderId);
 
-      if (response && response.pi) {
-        const piStatus = await PiStatus(response.pi);
-
-        res.status(200).json(piStatus);
+      if (response) {
+        res.status(200).json(response.paymentStatus);
       } else {
         res
           .status(404)
@@ -29,7 +26,7 @@ const PaymentStatus: RequestHandler = async (req, res, next) => {
         );
       }
     } else {
-      res.status(404).json("Please provide an Order ID");
+      res.status(404).json("Please provide an order ID");
     }
   } catch (error) {
     res.status(500).json(ERROR_MSG + " error: " + error);
