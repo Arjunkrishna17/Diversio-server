@@ -8,10 +8,13 @@ import ProductRoutes from "./Routers/ProductRoutes";
 import { DEV_URL, PROD_URL } from "./Config/CorsUrl";
 import Login from "./Routers/Login";
 import Checkout from "./Routers/Checkout";
+import Webhook from "./Stripe/Webhook";
 
 const app = express();
 
 ConnectDb();
+
+app.post("/stripe/webhook", express.raw({ type: "*/*" }), Webhook);
 
 app.use(express.json());
 

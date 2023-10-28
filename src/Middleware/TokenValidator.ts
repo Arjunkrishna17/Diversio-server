@@ -33,6 +33,6 @@ export const TokenValidator: RequestHandler = (req, res, next) => {
       }
     );
   } else {
-    res.status(401).end();
+    res.status(401).json("Authentication failed");
   }
 };

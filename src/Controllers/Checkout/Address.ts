@@ -1,6 +1,6 @@
 import { RequestHandler, response } from "express";
-import AddressModal from "../Modals/Address";
-import { Logger } from "../Utils/Logger";
+import AddressModal from "../../Modals/Address";
+import { Logger } from "../../Utils/Logger";
 
 const removeOtherDefaults = async (userId: string) => {
   await AddressModal.updateMany(
@@ -13,7 +13,7 @@ const removeOtherDefaults = async (userId: string) => {
   Logger.info("All other addresses are updated to non default");
 };
 
-export const saveAddress: RequestHandler = async (req, res, next) => {
+export const SaveAddress: RequestHandler = async (req, res, next) => {
   try {
     const address = req.body;
 
@@ -37,7 +37,7 @@ export const saveAddress: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const getAddress: RequestHandler = async (req, res, next) => {
+export const GetAddress: RequestHandler = async (req, res, next) => {
   try {
     const userId = res.locals.userId;
 
@@ -51,7 +51,7 @@ export const getAddress: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const editAddress: RequestHandler = async (req, res, next) => {
+export const EditAddress: RequestHandler = async (req, res, next) => {
   try {
     const userId = res.locals.userId;
 
@@ -89,7 +89,7 @@ export const editAddress: RequestHandler = async (req, res, next) => {
   }
 };
 
-export const deleteAddress: RequestHandler = async (req, res, next) => {
+export const DeleteAddress: RequestHandler = async (req, res, next) => {
   try {
     const addressId = req.query.id;
 

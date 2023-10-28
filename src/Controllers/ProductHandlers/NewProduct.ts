@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import Product from "../../Modals/Product";
+import ProductModal from "../../Modals/Product";
 import UploadImages from "../../AWS/UploadImages";
 import { Logger } from "../../Utils/Logger";
 
@@ -24,7 +24,7 @@ const NewProduct: RequestHandler = async (req, res, next) => {
 
     const product = { ...specificationAdded, images: imageUrls };
 
-    const result = await Product.create(product);
+    const result = await ProductModal.create(product);
 
     Logger.info(
       "New product " + title + " with id: " + result._id + " is added to db"

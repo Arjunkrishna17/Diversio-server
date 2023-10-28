@@ -1,20 +1,36 @@
 import { Router } from "express";
 import { TokenValidator } from "../Middleware/TokenValidator";
 import {
-  deleteAddress,
-  editAddress,
-  getAddress,
-  saveAddress,
-} from "../Controllers/Address";
+  DeleteAddress,
+  EditAddress,
+  GetAddress,
+  SaveAddress,
+} from "../Controllers/Checkout/Address";
+import {
+  CreatePaymentIntent,
+  CodHandler,
+} from "../Controllers/Checkout/Payment/Payment";
+import { GetOrders, PlaceOrder } from "../Controllers/Checkout/Order";
+import PaymentStatus from "../Controllers/Checkout/Payment/PaymentStatus";
 
 const Checkout = Router();
 
-Checkout.post("/address", TokenValidator, saveAddress);
+Checkout.get("/orders", TokenValidator, GetOrders);
 
-Checkout.get("/address", TokenValidator, getAddress);
+Checkout.post("/orders", TokenValidator, PlaceOrder);
 
-Checkout.delete("/address", TokenValidator, deleteAddress);
+Checkout.post("/address", TokenValidator, SaveAddress);
 
-Checkout.put("/address", TokenValidator, editAddress);
+Checkout.get("/address", TokenValidator, GetAddress);
+
+Checkout.delete("/address", TokenValidator, DeleteAddress);
+
+Checkout.put("/address", TokenValidator, EditAddress);
+
+Checkout.get("/payment-intent", TokenValidator, CreatePaymentIntent);
+
+Checkout.post("/payment", TokenValidator, CodHandler);
+
+Checkout.get("/payment/status", TokenValidator, PaymentStatus);
 
 export default Checkout;

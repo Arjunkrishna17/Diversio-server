@@ -5,7 +5,6 @@ import multer from "multer";
 import Products from "../Controllers/ProductHandlers/Products";
 import Cart from "../Controllers/Cart/Cart";
 import AddToCart from "../Controllers/Cart/AddToCart";
-import Product from "../Modals/Product";
 import UpdateProduct from "../Controllers/Cart/UpdateProduct";
 import Delete from "../Controllers/Cart/Delete";
 

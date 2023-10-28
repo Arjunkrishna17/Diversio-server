@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import Product from "../../Modals/Product";
 import { Logger } from "../../Utils/Logger";
 import CartProducts from "../../Modals/Cart";
 

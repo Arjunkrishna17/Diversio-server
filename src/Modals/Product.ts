@@ -14,6 +14,6 @@ const productSchema = new Schema({
   createdAt: { type: Date, default: DateTime.now().toUTC() },
 });
 
-const Product = model("Product", productSchema);
+const ProductModal = model("Product", productSchema);
 
-export default Product;
+export default ProductModal;

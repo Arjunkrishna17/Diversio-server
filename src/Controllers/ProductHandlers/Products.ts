@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import Product from "../../Modals/Product";
+import ProductModal from "../../Modals/Product";
 import { Logger } from "../../Utils/Logger";
 
 const Products: RequestHandler = async (req, res, next) => {
@@ -9,9 +9,9 @@ const Products: RequestHandler = async (req, res, next) => {
     let products;
 
     if (productId) {
-      products = await Product.findById(productId);
+      products = await ProductModal.findById(productId);
     } else {
-      products = await Product.find();
+      products = await ProductModal.find();
     }
 
     res.status(200).json(products);

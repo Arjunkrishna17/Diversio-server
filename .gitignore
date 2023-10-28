@@ -4,3 +4,4 @@ package-lock.json
 .vscode/settings.json
 node_modules
 .vscode/launch.json
+package.json
