@@ -7,6 +7,7 @@ import PaymentIntent from "../../../Stripe/PaymentIntent";
 import { Logger } from "../../../Utils/Logger";
 import OrderModal from "../../../Modals/Order";
 import { orderTypes } from "../Types";
+import DeleteAllCart from "../../Cart/DeleteAllCart";
 
 export const CreatePaymentIntent: RequestHandler = async (req, res, next) => {
   try {
@@ -28,7 +29,10 @@ export const CreatePaymentIntent: RequestHandler = async (req, res, next) => {
         { $set: { pi: response.id } }
       );
 
-      res.status(200).json({ clientSecret: response.client_secret });
+      res.status(200).json({
+        clientSecret: response.client_secret,
+        amount: response.amount,
+      });
       Logger.info(
         "Payment intent generated for order: " +
           orderId +
@@ -47,12 +51,16 @@ export const CreatePaymentIntent: RequestHandler = async (req, res, next) => {
 export const CodHandler: RequestHandler = async (req, res, next) => {
   const orderId = req.query.orderId;
 
+  const userId = res.locals.userId;
+
   if (orderId) {
     try {
       await OrderModal.findOneAndUpdate(
         { _id: orderId as string },
-        { $set: { paymentType: "cod", paymentStatus: "success" } }
+        { $set: { paymentType: "cod", paymentStatus: "Success" } }
       );
+
+      await DeleteAllCart(orderId as string, userId);
 
       res.sendStatus(200);
     } catch (error) {
