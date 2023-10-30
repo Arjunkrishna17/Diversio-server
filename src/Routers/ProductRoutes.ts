@@ -7,6 +7,7 @@ import Cart from "../Controllers/Cart/Cart";
 import AddToCart from "../Controllers/Cart/AddToCart";
 import UpdateProduct from "../Controllers/Cart/UpdateProduct";
 import Delete from "../Controllers/Cart/Delete";
+import Search from "../Controllers/ProductHandlers/Search";
 
 const ProductRouter = Router();
 
@@ -20,6 +21,8 @@ ProductRouter.post(
   Upload.array("images"),
   NewProduct
 );
+
+ProductRouter.get("/search", Search);
 
 ProductRouter.post("/cart", TokenValidator, AddToCart);
 
