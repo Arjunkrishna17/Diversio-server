@@ -6,3 +6,8 @@ export interface orderTypes {
   paymentType: string;
   paymentStatus: string;
 }
+
+export interface product {
+  productId: string;
+  quantity: number;
+}
