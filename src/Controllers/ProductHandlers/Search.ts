@@ -5,7 +5,7 @@ import { ERROR_MSG } from "../../Config/Constants";
 import { Logger } from "../../Utils/Logger";
 
 const Search: RequestHandler = async (req, res, next) => {
-  const search = req.query.search;
+  const search = req.query.search || " ";
 
   try {
     const response = await ProductModal.find(

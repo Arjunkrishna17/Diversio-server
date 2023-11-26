@@ -11,6 +11,7 @@ const addressSchema = new Schema({
   city: { type: String, required: true },
   state: { type: String, required: true },
   default: { type: Boolean, require: true },
+  createdAt: { type: Date, default: Date.now() },
 });
 
 const AddressModal = model("Address", addressSchema);

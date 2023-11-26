@@ -12,7 +12,7 @@ import {
 } from "../Controllers/Checkout/Payment/Payment";
 import {
   GetOrders,
-  PlaceOrder,
+  CreateOrder,
   UpdateOrderAddress,
 } from "../Controllers/Checkout/Order";
 import PaymentStatus from "../Controllers/Checkout/Payment/PaymentStatus";
@@ -25,7 +25,7 @@ Checkout.get("/orders", TokenValidator, GetOrders);
 
 Checkout.post("/orders/address/update", TokenValidator, UpdateOrderAddress);
 
-Checkout.post("/orders", TokenValidator, PlaceOrder);
+Checkout.post("/orders", TokenValidator, CreateOrder);
 
 Checkout.post("/orders/total-amount", TokenValidator, GetTotalOrder);
 

@@ -7,7 +7,7 @@ const Products: RequestHandler = async (req, res, next) => {
   try {
     const productId = req.query["product-id"];
     const categoryFilter = req.query.category;
-    const search = req.query.search;
+    const search = req.query.search as string;
     const pageNumber = req.query.page || 0;
     const pageSize = req.query.size || 50;
 
@@ -23,9 +23,14 @@ const Products: RequestHandler = async (req, res, next) => {
         query.$match = { category: categoryFilter };
       }
       if (search) {
+        const replaceSpclCharacter = search.replace(
+          /[-\/\\^$*+?.()|[\]{}]/g,
+          "\\$&"
+        );
+
         query.$match = {
           ...query.$match,
-          title: { $regex: search, $options: "i" },
+          title: { $regex: replaceSpclCharacter, $options: "i" },
         };
       }
 

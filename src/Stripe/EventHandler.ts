@@ -5,7 +5,7 @@ const EventHandler = (event: Stripe.Event) => {
   const paymentIntentObj = event.data.object as Stripe.PaymentIntent;
 
   const paymentInfo = {
-    orderId: paymentIntentObj.metadata.orderId,
+    cartId: paymentIntentObj.metadata.cartId,
     userId: paymentIntentObj.metadata.userId,
     type: "CARD",
   };

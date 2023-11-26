@@ -1,31 +1,30 @@
-import { error } from "console";
 import { RequestHandler } from "express";
-import * as yup from "yup";
-import { ValidationError } from "yup";
 
 import PaymentIntent from "../../../Stripe/PaymentIntent";
 import { Logger } from "../../../Utils/Logger";
 import OrderModal from "../../../Modals/Order";
-import { orderTypes } from "../Types";
 import DeleteAllCart from "../../Cart/DeleteAllCart";
+import { orderDetails } from "../../../Types/Order";
 
 export const CreatePaymentIntent: RequestHandler = async (req, res, next) => {
   try {
-    const orderId = req.query.orderId;
+    const cartId = req.query.cartId;
 
-    const order = (await OrderModal.findById(orderId)) as orderTypes;
+    const order = (await OrderModal.findOne({
+      cartId: cartId,
+    })) as orderDetails;
 
     const paymentInfo = {
-      amount: order.totalAmount,
+      amount: order.cartAmount,
       currency: "inr",
-      metadata: { userId: order.userId, orderId: orderId as string },
+      metadata: { userId: order.userId, cartId: cartId as string },
     };
 
     const response = await PaymentIntent(paymentInfo);
 
     if (response) {
-      await OrderModal.findByIdAndUpdate(
-        { _id: orderId },
+      await OrderModal.updateMany(
+        { cartId: cartId },
         { $set: { pi: response.id } }
       );
 
@@ -35,7 +34,7 @@ export const CreatePaymentIntent: RequestHandler = async (req, res, next) => {
       });
       Logger.info(
         "Payment intent generated for order: " +
-          orderId +
+          cartId +
           " have user id " +
           paymentInfo.metadata.userId
       );
@@ -49,18 +48,18 @@ export const CreatePaymentIntent: RequestHandler = async (req, res, next) => {
 };
 
 export const CodHandler: RequestHandler = async (req, res, next) => {
-  const orderId = req.query.orderId;
+  const cartId = req.query.cartId;
 
   const userId = res.locals.userId;
 
-  if (orderId) {
+  if (cartId) {
     try {
-      await OrderModal.findOneAndUpdate(
-        { _id: orderId as string },
+      await OrderModal.updateMany(
+        { cartId: cartId as string },
         { $set: { paymentType: "cod", paymentStatus: "Success" } }
       );
 
-      await DeleteAllCart(orderId as string, userId);
+      await DeleteAllCart(cartId as string, userId);
 
       res.sendStatus(200);
     } catch (error) {

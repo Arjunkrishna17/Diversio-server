@@ -1,102 +1,57 @@
 import { RequestHandler } from "express";
 import OrderModal from "../../Modals/Order";
 import { ERROR_MSG } from "../../Config/Constants";
-import ProductModal from "../../Modals/Product";
 import { Logger } from "../../Utils/Logger";
-import TotalAmount from "./TotalAmount";
 import { product } from "./Types";
+import { CreateOrderService, GetOrderService } from "../../Services/Order";
 
-export const PlaceOrder: RequestHandler = async (req, res, next) => {
+export const CreateOrder: RequestHandler = async (req, res, next) => {
   const userId = res.locals.userId;
+  const products: product[] = req.body.products;
 
   try {
-    const products: product[] = req.body.products;
-
-    if (products) {
-      const totalOrder = await TotalAmount(products);
-
-      const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // If the order fail to receive order confirmation, order will be deleted
-
-      if (totalOrder) {
-        const order = {
-          userId: userId,
-          totalAmount: totalOrder.totalAmount,
-          paymentType: null,
-          paymentStatus: null,
-          expiresAt: expiresAt,
-          ...req.body,
-        };
-
-        const response = await OrderModal.create(order);
-
-        if (response) {
-          res.status(200).json({ orderId: response._id });
-          Logger.info(
-            "New order created successfully, orderId: " + response._id
-          );
-        } else {
-          res.status(400).json(ERROR_MSG);
-          Logger.error("Failed to create order of user " + userId);
-        }
-      } else {
-        res.status(400).json(ERROR_MSG);
-        Logger.error(
-          "Failed to create order of user, error: Failed to get the total amount " +
-            "user ID: " +
-            userId
-        );
-      }
-    } else {
-      res.status(404).json("Please provide productId and its quantity");
+    if (!products) {
+      res.status(404).json("Please provide productId and quantity");
+      return;
     }
+
+    const cartId = await CreateOrderService(userId, products);
+
+    res.status(200).json({ cartId: cartId });
   } catch (error) {
-    res.status(500).json("Failed to place order, error: " + error);
     Logger.error(
-      "Failed to place order for user " + userId + " error: " + error
+      "Failed to create order for user " + userId + " error: " + error
     );
+
+    res.sendStatus(500);
   }
 };
 
 export const GetOrders: RequestHandler = async (req, res, next) => {
   const orderId = req.query.orderId;
+  const cartId = req.query.cartId;
+  const userId = res.locals.userId;
 
   try {
-    if (orderId) {
-      const response = await OrderModal.find({
-        _id: orderId,
-        paymentStatus: null,
-      });
+    const orders = await GetOrderService(
+      orderId as string | undefined,
+      cartId as string | undefined,
+      userId
+    );
 
-      if (response.length) {
-        res.status(200).json(response[0]);
-      } else {
-        res.status(404).json("Session expired");
-      }
-    } else {
-      const query = {
-        $or: [{ paymentStatus: "Success" }, { paymentStatus: "Failed" }],
-      };
-
-      const projection = {
-        pi: 0,
-      };
-
-      const response = await OrderModal.find(query, projection);
-
-      res.status(200).json(response);
-    }
+    res.status(200).json(orders);
   } catch (error) {
     res.status(500).json(ERROR_MSG + " error: " + error);
   }
 };
 
 export const UpdateOrderAddress: RequestHandler = async (req, res, next) => {
-  const orderId =
-    req.query.orderId || res.sendStatus(404).json("Please provide order ID");
+  const cartId =
+    req.query.cartId || res.sendStatus(404).json("Please provide cart ID");
 
   try {
-    const response = await OrderModal.findByIdAndUpdate(
-      { _id: orderId },
+    const response = await OrderModal.updateMany(
+      { cartId: cartId },
       { $set: { address: req.body.address } },
       { new: true }
     );
@@ -113,7 +68,7 @@ export const UpdateOrderAddress: RequestHandler = async (req, res, next) => {
 
     Logger.error(
       "failed to update the address in the order ID:" +
-        orderId +
+        cartId +
         " error: " +
         error
     );
