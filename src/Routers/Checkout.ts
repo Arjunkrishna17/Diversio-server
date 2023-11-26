@@ -27,7 +27,7 @@ Checkout.post("/orders/address/update", TokenValidator, UpdateOrderAddress);
 
 Checkout.post("/orders", TokenValidator, CreateOrder);
 
-Checkout.post("/orders/total-amount", TokenValidator, GetTotalOrder);
+Checkout.post("/orders/total-amount", GetTotalOrder);
 
 Checkout.post("/address", TokenValidator, SaveAddress);
 
