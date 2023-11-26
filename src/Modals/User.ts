@@ -6,6 +6,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   user: { type: String, required: true },
   mobileNumber: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now() },
 });
 
 const User = model("User", userSchema);

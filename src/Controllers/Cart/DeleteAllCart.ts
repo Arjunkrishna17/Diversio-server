@@ -1,18 +1,15 @@
 import { product } from "./Type";
 import OrderModal from "../../Modals/Order";
-import { orderTypes } from "../Checkout/Types";
 import CartProducts from "../../Modals/Cart";
 import { Logger } from "../../Utils/Logger";
 
-const DeleteAllCart = async (orderId: string, userId: string) => {
-  const orderDetails = await OrderModal.findById(orderId);
-
-  
+const DeleteAllCart = async (cartId: string, userId: string) => {
+  const orderDetails = await OrderModal.find({ cartId: cartId });
 
   try {
     if (orderDetails) {
-      const ids = orderDetails.products.map(
-        (product: { productId: string; quantity: number }) => product.productId
+      const ids = orderDetails.map(
+        (product: { product: { _id: string } }) => product.product._id
       );
 
       const response = await CartProducts.deleteMany({
@@ -20,7 +17,7 @@ const DeleteAllCart = async (orderId: string, userId: string) => {
         productId: { $in: ids },
       });
 
-      Logger.info("All products of order ID: " + orderId + " deleted");
+      Logger.info("All products of order ID: " + cartId + " deleted");
 
       return true;
     }

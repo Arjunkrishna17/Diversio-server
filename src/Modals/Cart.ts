@@ -7,6 +7,7 @@ const cartSchema = new Schema({
   quantity: { type: Number, required: true },
   price: { type: Number, required: true },
   imageUrl: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now() },
 });
 
 const CartProducts = model("Cart", cartSchema);

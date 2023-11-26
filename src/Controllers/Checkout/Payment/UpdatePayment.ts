@@ -3,32 +3,29 @@ import { Logger } from "../../../Utils/Logger";
 import DeleteAllCart from "../../Cart/DeleteAllCart";
 
 interface props {
-  orderId: string;
+  cartId: string;
   userId: string;
   type: string;
   status: string;
 }
 
-const UpdatePayment = async ({ orderId, userId, type, status }: props) => {
+const UpdatePayment = async ({ cartId, userId, type, status }: props) => {
   try {
-    const response = await OrderModal.findByIdAndUpdate(
-      { _id: orderId },
+    const response = await OrderModal.updateMany(
+      { cartId: cartId },
       { $set: { paymentStatus: status, paymentType: type, expiresAt: null } },
       { new: true }
     );
 
     if (response) {
       Logger.info(
-        "Payment status of order: " +
-          response._id +
-          " updated to" +
-          response.paymentStatus
+        "Payment status of cartId: " + cartId + " updated to" + status
       );
     }
 
-    const deleteResult = await DeleteAllCart(orderId, userId);
+    const deleteResult = await DeleteAllCart(cartId, userId);
   } catch (error) {
-    Logger.info("Failed to update the payment status of order: " + orderId);
+    Logger.info("Failed to update the payment status of cart: " + cartId);
   }
 };
 

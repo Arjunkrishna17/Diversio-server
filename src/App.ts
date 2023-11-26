@@ -20,7 +20,7 @@ app.use(express.json());
 
 app.use(cors({ origin: [DEV_URL, PROD_URL] }));
 
-app.use("/health", (req, res, next) => {
+app.use("/health", (req, res, next) => { // Helps Aws to keep the server running
   res.status(200).end();
 });
 

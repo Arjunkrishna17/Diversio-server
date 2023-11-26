@@ -6,13 +6,13 @@ import { Logger } from "../../../Utils/Logger";
 
 const PaymentStatus: RequestHandler = async (req, res, next) => {
   try {
-    const orderId = req.query.orderId;
+    const cartId = req.query.cartId;
 
-    if (orderId) {
-      const response = await OrderModal.findById(orderId);
+    if (cartId) {
+      const response = await OrderModal.find({ cartId: cartId });
 
       if (response) {
-        res.status(200).json(response.paymentStatus);
+        res.status(200).json(response[0].paymentStatus);
       } else {
         res
           .status(404)
@@ -22,11 +22,11 @@ const PaymentStatus: RequestHandler = async (req, res, next) => {
 
         Logger.info(
           "No such order found or payment details of the order not found" +
-            orderId
+            cartId
         );
       }
     } else {
-      res.status(404).json("Please provide an order ID");
+      res.status(404).json("Please provide an cart ID");
     }
   } catch (error) {
     res.status(500).json(ERROR_MSG + " error: " + error);
