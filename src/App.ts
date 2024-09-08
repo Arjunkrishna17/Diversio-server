@@ -20,7 +20,8 @@ app.use(express.json());
 
 app.use(cors({ origin: [DEV_URL, PROD_URL] }));
 
-app.use("/health", (req, res, next) => { // Helps Aws to keep the server running
+app.use("/health", (req, res, next) => {
+  // Helps Aws to keep the server running
   res.status(200).end();
 });
 
@@ -30,19 +31,17 @@ app.use("/auth", Login);
 
 app.use("/checkout", Checkout);
 
-const params = {
-  key: process.env.PRIVATE_KEY?.replace(/\\n/g, "\n"),
-  cert: process.env.PUBLIC_KEY?.replace(/\\n/g, "\n"),
-};
+// const params = {
+//   key: process.env.PRIVATE_KEY?.replace(/\\n/g, "\n"),
+//   cert: process.env.PUBLIC_KEY?.replace(/\\n/g, "\n"),
+// };
 
-let server = https.createServer(params, app);
+// let server = https.createServer(params, app);
 
-server.listen(443, () => {
-  Logger.info("Listening on port 443");
+// server.listen(443, () => {
+//   Logger.info("Listening on port 443");
+// });
+
+app.listen(3000, () => {
+  Logger.info("Listening on port 8080");
 });
-
-if (process.env.ENV === "development") {
-  app.listen(8080, () => {
-    Logger.info("Listening on port 8080");
-  });
-}
