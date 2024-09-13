@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import https from "https";
 
 import { Logger } from "./Utils/Logger";
 import ConnectDb from "./Db/ConnectDb";
@@ -31,17 +30,6 @@ app.use("/auth", Login);
 
 app.use("/checkout", Checkout);
 
-// const params = {
-//   key: process.env.PRIVATE_KEY?.replace(/\\n/g, "\n"),
-//   cert: process.env.PUBLIC_KEY?.replace(/\\n/g, "\n"),
-// };
-
-// let server = https.createServer(params, app);
-
-// server.listen(443, () => {
-//   Logger.info("Listening on port 443");
-// });
-
 app.listen(3000, () => {
-  Logger.info("Listening on port 8080");
+  Logger.info("Listening on port 3000");
 });

@@ -18,6 +18,7 @@ export const CreatePaymentIntent: RequestHandler = async (req, res, next) => {
       amount: order.cartAmount,
       currency: "inr",
       metadata: { userId: order.userId, cartId: cartId as string },
+      description: "Payment for " + order.product,
     };
 
     const response = await PaymentIntent(paymentInfo);
